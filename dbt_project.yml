@@ -37,12 +37,24 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   seguro_clima_project:
-    staging: 
+    staging:
       +materialized: table
       +tags: ["staging"]
-    processing: 
+      clientes:
+        +tags: ["clientes"]
+      clima:
+        +tags: ["clima"]
+
+    processing:
       +materialized: view
       +tags: ["processing"]
-    mart: 
+      impacto_climatico:
+        +tags: ["impacto_climatico"]
+
+    mart:
       +materialized: view
       +tags: ["mart"]
+      analisis_riesgo:
+        +tags: ["analisis_riesgo"]
+      reporting:
+        +tags: ["reporting"]

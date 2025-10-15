@@ -1,0 +1,108 @@
+
+version: 2
+
+sources:
+  - name: raw_bi_riesgo_climatico
+    database: DATASEGUROCLIMA
+    schema: DBT_SEGUROCLIMA
+    tables:
+      - name: STG_RAW_AEMET_CLIMA
+        description: "Contiene datos climáticos por estación, día, mes y año"
+        tests:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns: ['estacion','fecha']
+        columns:
+          - name: estacion
+            description: "Nombre estación meteorológica"
+            tests:
+              - not_null
+          - name: provincia
+            description: "Provincia ubicación de la estación"
+            tests:
+              - not_null
+          - name: temperatura_media
+            description: "Temperatura media del día"
+          - name: temperatura_max
+            description: ""
+          - name: temperatura_min
+            description: ""
+          - name: racha_km
+            description: ""
+          - name: velocidad_km
+            description: ""
+          - name: precipitacion1
+            description: ""
+          - name: precipitacion2
+            description: ""
+          - name: precipitacion3
+            description: ""
+          - name: precipitacion4
+            description: ""
+          - name: precipitacion5
+            description: ""
+          - name: mes
+            description: ""
+          - name: anio
+            description: ""
+          - name: fecha
+            description: ""
+          - name: fuente
+            description: ""
+          - name: file_name
+            description: ""
+          - name: load_ts
+      - name: STG_RAW_CLIENTES
+        description: "Tabla staging con datos de clientes cargados desde el stage"
+        tests:
+          - dbt_utils.unique_combination_of_columns:
+              combination_of_columns: ['CLIENTE_ID']        
+        columns:
+          - name: CLIENTE_ID
+            description: "Identificador único del cliente"
+            tests:
+              - not_null
+              - unique
+          - name: TIPO_SEGURO
+            description: "Tipo de seguro contratado por el cliente"
+            tests:
+              - accepted_values:
+                  values: ['AUTOS', 'HOGAR', 'SALUD']
+          - name: ZONA
+            description: "Zona geográfica del cliente"
+          - name: EDAD
+            description: "Edad del cliente"
+          - name: VALOR_PROPIEDAD
+            description: "Valor estimado de la propiedad asegurada"
+          - name: VALOR_AUTO
+            description: "Valor estimado del vehículo asegurado"
+          - name: SINIESTRO
+            description: "Número de siniestros reportados"
+          - name: VALOR_TOTAL
+            description: "Valor total asegurado"
+          - name: CIUDAD
+            description: "Ciudad del cliente"
+          - name: MES
+            description: "Mes del registro"
+          - name: ANYO
+            description: "Año del registro"
+          - name: FECHA
+            description: "Fecha del registro"
+          - name: LOAD_TS
+            description: "Timestamp de carga en la tabla staging"
+      - name: LISTADO_ESTACIONES
+        description: "Listado de estaciones meteorológicas de España"  
+        columns:
+          - name: ID 
+            description: "Identificador de la estación meteorológica"
+          - name: NOMBRE
+            description: "Nombre de la estación"
+          - name: MUNICIPIO
+            description: "Municipio ubicación de la estación meteorológicas"
+          - name: PROVINCIA
+            description: "Provincia ubicación de la estación meteorológicas"
+          - name: ALTURA
+            description: "Altura situada la estación meteorológicas"
+          - name: LATITUD
+            description: "Latitud ubicación de la estación meteorológicas"
+          - name: LONGITUD
+            description: "Longitud ubicación de la estación meteorológicas"
